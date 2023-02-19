@@ -9,6 +9,8 @@ contract SimpleStorage{
     }
     //favNum is getting indexed at 0 and person is getting indexed at 1
     uint256 favNum;
+
+    mapping(string => uint256) public nameToFavoriteNumber;
     
     //uint256 public favNumslist;
     People[] public people;
@@ -23,8 +25,10 @@ contract SimpleStorage{
     function retrieve() public view returns(uint256){
         return favNum;
     }
-
+    
+    //calldata, memory, storage
     function addPerson(string memory _name, uint256 _favNum) public{
         people.push(People(_favNum, _name));
+        nameToFavoriteNumber[_name] = _favNum;
     }
 }

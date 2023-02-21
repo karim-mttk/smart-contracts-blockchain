@@ -22,13 +22,11 @@ contract SimpleStorage{ //contract is like a class in other prog.languages
         favNum = _favNum;
         retrieve;
     }
-
     //view, pure
     //does not modify the state of the block chain
     function retrieve() public view returns(uint256){
         return favNum;
     }
-
     //calldata, memory, storage
     function addPerson(string memory _name, uint256 _favNum) public{
         people.push(People(_favNum, _name));

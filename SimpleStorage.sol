@@ -18,7 +18,7 @@ contract SimpleStorage{ //contract is like a class in other prog.languages
     //uint256 public favNumslist;
     People[] public people;
 
-    function store(uint256 _favNum) public {
+    function store(uint256 _favNum) public virtual {
         favNum = _favNum;
         retrieve;
     }

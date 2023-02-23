@@ -3,11 +3,15 @@ pragma solidity ^0.8.8;
 
 //get funds from users/people
 //withdraw funds
-//set min funding value in USD
+// set min funding value in USD
+
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract FundMe {
 
     uint256 public minimumUSD = 50;
+
+
 
     function fund() public payable {
         //to set a min fund in USD
@@ -16,7 +20,18 @@ contract FundMe {
         //number = 6;
         require(msg.value > minimumUSD, "Didn't send enough!!");
 
-        function getPrice(){}
+        function getPrice() public {
+            //ABI
+            //Address 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+
+            AggregatorV3Interface priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+        }
+
+        function getVersion() public view returns (uint256){
+            AggregatorV3Interface priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+            return priceFeed.version();
+        }
+
 
         function getConversionrate(){}
         

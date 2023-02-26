@@ -9,10 +9,18 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract FundMe {
     uint256 public minimumUSD = 50 * 1e18;
+    //ethereum block chain takes  
+
+    address[] public funders; 
+    mapping(address => uint256) public addressToAmountFunded;
+
+
 
     function fund() public payable {
         require(msg.value >= minimumUSD, "Didn't send enough!!");
-        // add code to handle the funds
+        // code to handle multiple funders
+        funders.push(msg.sender);
+        addressToAmountFunded[msg.sender] = msg.value;
     }
 
     function getPrice() public view returns (uint256) {

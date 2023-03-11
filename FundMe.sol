@@ -7,10 +7,14 @@ pragma solidity ^0.8.8;
 
 import "./PriceConverter.sol";
 
+//constant, immutable
+//852,978, 	874,189, 852,755
+//reducing tranction and execution costs in gas prices.  
+
 contract FundMe {
     using PriceConverter for uint256;    
 
-    uint256 public minimumUSD = 50 * 1e18;
+    uint256 public constant MINIMUM_USD = 50 * 10 ** 10;
     //ethereum block chain takes  
 
     address[] public funders; 
@@ -21,17 +25,12 @@ contract FundMe {
     constructor(){
         owner = msg.sender;
         
-
     }
 
-    function fund() public payable {
-        //getConversionRate(msg.value);
-        //require(msg.value >= minimumUSD, "Didn't send enough!!");
-        require(msg.value.getConversionRate() >= minimumUSD, "Didn't send enough!!");
-        //msg.value.getConversionRate()
-        // code to handle multiple funders
+  function fund() public payable {
+        require(msg.value.getConversionRate() > MINIMUM_USD, "Didn't send enough!!");
+        addressToAmountFunded[msg.sender] += msg.value;
         funders.push(msg.sender);
-        addressToAmountFunded[msg.sender] = msg.value;
     }
     // add code to allow users to withdraw funds
 
@@ -69,6 +68,4 @@ contract FundMe {
         require(msg.sender == owner, "Sender not 'owner'!");
         _;
     }
-
-    
 }

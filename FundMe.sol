@@ -7,6 +7,8 @@ pragma solidity ^0.8.8;
 
 import "./PriceConverter.sol";
 
+error NotOwner();
+
 contract FundMe {
     using PriceConverter for uint256;    
 
@@ -16,12 +18,10 @@ contract FundMe {
     address[] public funders; 
     mapping(address => uint256) public addressToAmountFunded;
 
-    address public owner;
+    address public immutable i_owner;
 
     constructor(){
-        owner = msg.sender;
-        
-
+        i_owner = msg.sender;
     }
 
     function fund() public payable {
@@ -66,9 +66,10 @@ contract FundMe {
     }
     //modifier
     modifier onlyOwner{
-        require(msg.sender == owner, "Sender not 'owner'!");
+        //require(msg.sender == i_owner, "Sender not 'owner'!");
+         if(msg.sender != i_owner){ revert NotOwner(); }
         _;
-    }
 
-    
+    }
+    //what happens if someone sends this contract some ETH without calling the fund function
 }

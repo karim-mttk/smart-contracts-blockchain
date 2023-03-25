@@ -12,7 +12,7 @@ error NotOwner();
 contract FundMe {
     using PriceConverter for uint256;    
 
-    uint256 public minimumUSD = 50 * 1e18;
+    uint256 public minimumUSD = 50 * 1e8;
     //ethereum block chain takes  
 
     address[] public funders; 

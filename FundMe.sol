@@ -4,7 +4,6 @@ pragma solidity ^0.8.8;
 // get funds from users/people
 // withdraw funds
 // set min funding value in USD
-
 import "./PriceConverter.sol";
 
 error NotOwner();
@@ -40,7 +39,6 @@ contract FundMe {
     function withdraw() public onlyOwner {
         //require(msg.sender == owner, "Sender not 'owner'!");
        
-
         for(uint256 funderIndex = 0; funderIndex<funders.length; funderIndex++){
                 address funder = funders[funderIndex];
                 addressToAmountFunded[funder] = 0;
@@ -62,7 +60,6 @@ contract FundMe {
         //call
         (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
-
     }
     //modifier
     modifier onlyOwner{

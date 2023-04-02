@@ -10,7 +10,7 @@ contract SimpleStorage {
     struct People {
         uint256 favNum;
         string name;
-    }
+    }w
     //favNum is getting indexed at 0 and person is getting indexed at 1
     uint256 favNum;
 

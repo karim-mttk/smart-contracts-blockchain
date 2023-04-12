@@ -1,15 +1,15 @@
-// This script deploys the contract to the local blockchain
-//NOTES: use $ npm install ethers@5.7.2 and change the ethers version in package.json to 5.7.2
+/*This script deploys the contract to the local blockchain
+NOTES: use $ npm install ethers@5.7.2 and change the ethers version in package.json to 5.7.2*/
 
 const ethers = require("ethers");
 const fs = require("fs-extra");
 require("dotenv").config();
 
 async function main() {
-  //http://127.0.0.1:7545
+  /*http://127.0.0.1:7545*/
   let provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 
-  // check if the connection was successful
+  /*check if the connection was successful*/
   provider
     .getNetwork()
     .then((network) => {
@@ -19,12 +19,19 @@ async function main() {
       console.error(`Could not connect to network: ${error}`);
     });
 
-  // let wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  const encryptedJson = fs.readFileSync("./encryptedKey.json", "utf8");
-  let wallet = new ethers.Wallet.fromEncryptedJsonSync(
-    encryptedJson,
-    process.env.PRIVATE_KEY_PASSWORD
-  );
+  let wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+  /*
+  The following code is used to run the encrypted key file. Run with: $ PRIVATE_KEY_PASSWORD=tests node deploy.js 
+  for ordinary runs use the above code with by chaning the PRIVATE_KEY in .env to the private key of the account you want to use
+  */
+
+  // const encryptedJson = fs.readFileSync("./encryptedKey.json", "utf8");
+  // let wallet = new ethers.Wallet.fromEncryptedJsonSync(
+  //   encryptedJson,
+  //   process.env.PRIVATE_KEY_PASSWORD
+  // );
+
   wallet = await wallet.connect(provider);
   const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.json", "utf8");
   const binary = fs.readFileSync(
@@ -35,6 +42,7 @@ async function main() {
   console.log("Deploying contract, **pls wait...");
   const contract = await contractFactory.deploy();
   await contract.deployTransaction.wait(1);
+  console.log(`Contract deployed to address: , ${contract.address}`);
 
   //const deploymentReceipt = await contract.deployTransaction.wait(1);
   // console.log("The deployment transaction: ");
